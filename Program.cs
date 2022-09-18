@@ -13,12 +13,11 @@ using ClothesWeather;
 
 
 
+
 string pubIp =  new System.Net.WebClient().DownloadString("https://api.ipify.org");
 string? location = Get($"http://ip-api.com/json/{pubIp}");
 
-GetIpClass locationInfo = JsonSerializer.Deserialize<GetIpClass>(location);
-
-//Console.Write(locationInfo.lat + " " + locationInfo.lon);
+GetIpClass DeserializedLocation = JsonSerializer.Deserialize<GetIpClass>(location);
 
 
 // Using Api service for getting weather from your location (https://openweathermap.org/)
@@ -29,20 +28,23 @@ var client = new HttpClient();
 var request = new HttpRequestMessage
 {
     Method = HttpMethod.Get,
-    RequestUri = new Uri($"https://api.openweathermap.org/data/2.5/weather?lat={locationInfo.lat}&lon={locationInfo.lon}&appid={apiKey}"),
+    RequestUri = new Uri($"https://api.openweathermap.org/data/2.5/weather?lat={DeserializedLocation.lat}&lon={DeserializedLocation.lon}&appid={apiKey}"),
 };
 using (var response = await client.SendAsync(request))
 {
     response.EnsureSuccessStatusCode();
     var body = await response.Content.ReadAsStringAsync();
-    Console.WriteLine(body);
+
+    WeatherMapApiClass.Root myDeserializedClass = JsonSerializer.Deserialize<WeatherMapApiClass.Root>(body);
+    
+    Console.WriteLine(Math.Round(myDeserializedClass.main.feels_like - 274,1));
 }
 
 
 
 
 
-// Get method for find your Location
+// Get method for finding your Location
 string Get(string uri)
 {
     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
