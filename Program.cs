@@ -1,13 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.Device.Location;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 //Request library
 using System.Net;
-using System.IO;
+
 using System.Text.Json;
 using ClothesWeather;
 
@@ -17,7 +11,7 @@ using ClothesWeather;
 string pubIp =  new System.Net.WebClient().DownloadString("https://api.ipify.org");
 string? location = Get($"http://ip-api.com/json/{pubIp}");
 
-GetIpClass DeserializedLocation = JsonSerializer.Deserialize<GetIpClass>(location);
+GetIpClass? deserializedLocation = JsonSerializer.Deserialize<GetIpClass>(location);
 
 
 // Using Api service for getting weather from your location (https://openweathermap.org/)
@@ -25,10 +19,11 @@ GetIpClass DeserializedLocation = JsonSerializer.Deserialize<GetIpClass>(locatio
 string apiKey = "Paste your Api key here";
 
 var client = new HttpClient();
+Debug.Assert(deserializedLocation != null, nameof(deserializedLocation) + " != null");
 var request = new HttpRequestMessage
 {
     Method = HttpMethod.Get,
-    RequestUri = new Uri($"https://api.openweathermap.org/data/2.5/weather?lat={DeserializedLocation.lat}&lon={DeserializedLocation.lon}&appid={apiKey}"),
+    RequestUri = new Uri($"https://api.openweathermap.org/data/2.5/weather?lat={deserializedLocation.lat}&lon={deserializedLocation.lon}&appid={apiKey}"),
 };
 using (var response = await client.SendAsync(request))
 {
@@ -37,7 +32,12 @@ using (var response = await client.SendAsync(request))
 
     WeatherMapApiClass.Root myDeserializedClass = JsonSerializer.Deserialize<WeatherMapApiClass.Root>(body);
     
-    Console.WriteLine(Math.Round(myDeserializedClass.main.feels_like - 274,1));
+    //Console.Write(body);
+    Console.WriteLine("Инфа на сегодня");
+    Console.WriteLine("Город: " + myDeserializedClass.name);
+    Console.WriteLine("Температура: " + Math.Round(myDeserializedClass.main.feels_like - 273, 1));
+    Console.WriteLine("Скорость ветра: " + myDeserializedClass.wind.speed);
+    //Console.WriteLine(Math.Round(myDeserializedClass.main.feels_like - 274,1));
 }
 
 
@@ -47,10 +47,10 @@ using (var response = await client.SendAsync(request))
 // Get method for finding your Location
 string Get(string uri)
 {
-    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-    request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uri);
+    webRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
-    using(HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+    using(HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse())
     using(Stream stream = response.GetResponseStream())
     using(StreamReader reader = new StreamReader(stream))
     {
