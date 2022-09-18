@@ -1,0 +1,25 @@
+{
+  "Clothes": [
+    {
+      "must_have": {
+        "body": "Футболка"
+      },
+      "summer": {
+        "shorts" : "Шорты"
+      },
+      "bit_cold" : {
+        "shorts": "Джинсы"
+      },
+      "demi-season": {
+        "upper_body": "Ветровка",
+        "shorts" : "Штаны/Джинсы"
+      },
+      "winter": {
+        "upper_body" : "Куртка",
+        "body" : "Кофта",
+        "shorts" : "Штаны/Джинсы"
+      }
+
+    }
+  ]
+}
