@@ -7,8 +7,8 @@
       "summer": {
         "shorts" : "Шорты"
       },
-      "bit_cold" : {
-        "shorts": "Джинсы"
+      "bit_cold" : { 
+        "shorts": "Штаны/Джинсы"
       },
       "demi-season": {
         "upper_body": "Ветровка",
@@ -19,7 +19,6 @@
         "body" : "Кофта",
         "shorts" : "Штаны/Джинсы"
       }
-
     }
   ]
 }

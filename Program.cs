@@ -1,15 +1,17 @@
 ﻿using System.Diagnostics;
 //Request library
 using System.Net;
-
-using System.Text.Json;
 using ClothesWeather;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 
-
-
+string city;
+double temperature;
+double windSpeed;
+bool rain = false;
 string pubIp =  new System.Net.WebClient().DownloadString("https://api.ipify.org");
-string? location = Get($"http://ip-api.com/json/{pubIp}");
+string location = Get($"http://ip-api.com/json/{pubIp}");
 
 GetIpClass? deserializedLocation = JsonSerializer.Deserialize<GetIpClass>(location);
 
@@ -29,16 +31,54 @@ using (var response = await client.SendAsync(request))
 {
     response.EnsureSuccessStatusCode();
     var body = await response.Content.ReadAsStringAsync();
-
-    WeatherMapApiClass.Root myDeserializedClass = JsonSerializer.Deserialize<WeatherMapApiClass.Root>(body);
     
-    //Console.Write(body);
-    Console.WriteLine("Инфа на сегодня");
-    Console.WriteLine("Город: " + myDeserializedClass.name);
-    Console.WriteLine("Температура: " + Math.Round(myDeserializedClass.main.feels_like - 273, 1));
-    Console.WriteLine("Скорость ветра: " + myDeserializedClass.wind.speed);
-    //Console.WriteLine(Math.Round(myDeserializedClass.main.feels_like - 274,1));
+    WeatherMapApiClass.Root myDeserializedWeatherClass = JsonSerializer.Deserialize<WeatherMapApiClass.Root>(body);
+
+    foreach (var weather in myDeserializedWeatherClass.weather)
+    {
+        if (weather.main == "Rain")
+        {
+            rain = true;
+        }
+    }
+    
+    city = myDeserializedWeatherClass.name;
+    temperature = Math.Round(myDeserializedWeatherClass.main.feels_like - 273, 1);
+    windSpeed = myDeserializedWeatherClass.wind.speed;
 }
+
+
+Console.WriteLine("\nВаш Город: " + city);
+Console.WriteLine("\nПрогноз на сегодня");
+Console.WriteLine("Температура: " + temperature);
+Console.WriteLine("Скорость ветра: " + windSpeed);
+if (rain)
+{
+    Console.WriteLine("Сейчас идет дождь, возьмите зонт");
+}
+
+/*string jsonString =
+    @"{""Clothes"": [{""must_have"": {""body"": ""Футболка""}, ""summer"": {""shorts"" : ""Шорты""}, ""bit_cold"" : {""shorts"": ""Штаны/Джинсы""}, ""demi-season"": {""upper_body"": ""Ветровка"", ""shorts"" : ""Штаны/Джинсы""}, ""winter"": {""upper_body"" : ""Куртка"", ""body"" : ""Кофта"", ""shorts"" : ""Штаны/Джинсы""}}]}";
+ClothesJsonDeserializeClass clothesJsonDeserializeClass = JsonSerializer.Deserialize<ClothesJsonDeserializeClass>(jsonString);*/
+
+dynamic jsonfile = JsonConvert.DeserializeObject("{ 'Clothes': [{'must_have': {'body': 'Футболка'}, 'summer': {'shorts' : 'Шорты'}, 'bit_cold' : {'shorts': 'Штаны/Джинсы'}, 'demi-season': {'upper_body': 'Ветровка', 'shorts' : 'Штаны/Джинсы'}, 'winter': {'upper_body' : 'Куртка', 'body' : 'Кофта', 'shorts' : 'Штаны/Джинсы'}}]}");
+
+
+//you can change these parameters according to your feeling
+
+//summer - (19-40)
+//bit_cold - (15-18)
+//demi_season - (9-14)
+//winter - (-30 - 8)
+
+/*foreach (var qq in stuff.Clothes)
+{
+    Console.Write(qq.must_have.body);
+}*/
+
+
+
+
 
 
 
