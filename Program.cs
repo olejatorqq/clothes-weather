@@ -10,8 +10,8 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 //summer - (19-40)
 //bit_cold - (15-18)
-//demi_season - (9-14)
-//winter - (-30 - 8)
+//demi_season - (5-14)
+//winter - (-30 - 4)
 
 int summer_temperature = 18;
 int bit_cold_temperature = 14;
@@ -69,20 +69,24 @@ Console.WriteLine("Скорость ветра: " + windSpeed);
     @"{""Clothes"": [{""must_have"": {""body"": ""Футболка""}, ""summer"": {""shorts"" : ""Шорты""}, ""bit_cold"" : {""shorts"": ""Штаны/Джинсы""}, ""demi-season"": {""upper_body"": ""Ветровка"", ""shorts"" : ""Штаны/Джинсы""}, ""winter"": {""upper_body"" : ""Куртка"", ""body"" : ""Кофта"", ""shorts"" : ""Штаны/Джинсы""}}]}";
 ClothesJsonDeserializeClass clothesJsonDeserializeClass = JsonSerializer.Deserialize<ClothesJsonDeserializeClass>(jsonString);*/
 
-dynamic jsonfile = JsonConvert.DeserializeObject("{ 'Clothes': [{'must_have': {'body': 'Футболка'}, 'summer': {'shorts' : 'Шорты'}, 'bit_cold' : {'shorts': 'Штаны/Джинсы'}, 'demi-season': {'upper_body': 'Ветровка', 'shorts' : 'Штаны/Джинсы'}, 'winter': {'upper_body' : 'Куртка', 'body' : 'Кофта', 'shorts' : 'Штаны/Джинсы'}}]}");
+dynamic jsonfile = JsonConvert.DeserializeObject("{'Clothes': [{'summer': {'upper_body': '', 'body': 'Футболка', 'shorts' : 'Шорты'}, 'bit_cold' : {'upper_body': '', 'body': 'Футболка', 'shorts': 'Штаны/Джинсы'}, 'demi_season': {'upper_body': 'Ветровка', 'body' : 'Кофта', 'shorts' : 'Штаны/Джинсы'}, 'winter': {'upper_body' : 'Куртка', 'body' : 'Кофта', 'shorts' : 'Штаны/Джинсы'}}]}");
 
 
-foreach (var clotherDeserialize in jsonfile.Clothes)
+/*foreach (var clotherDeserialize in jsonfile.Clothes)
 {
     if (temperature > summer_temperature)//18
     {
-        Console.WriteLine($"Вам следует надеть: {clotherDeserialize.must_have.body} и {clotherDeserialize.summer.shorts}");
+        Console.WriteLine($"Вам следует надеть: {clotherDeserialize.summer.upper_body} {clotherDeserialize.summer.body} и {clotherDeserialize.summer.shorts}");
     }
     else if (temperature > bit_cold_temperature)//14
     {
-        Console.WriteLine();
+        Console.WriteLine($"Вам следует надеть: {clotherDeserialize.bit_cold.upper_body} {clotherDeserialize.bit_cold.body} и {clotherDeserialize.bit_cold.shorts}");
     }
-}
+    else if (temperature > demi_season_temperatupe)
+    {
+        Console.WriteLine($"Вам следует надеть: {clotherDeserialize.bit_cold.upper_body} {clotherDeserialize.bit_cold.body} и {clotherDeserialize.bit_cold.shorts}");
+    }
+}*/
 
 if (rain)
 {
