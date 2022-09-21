@@ -1,1 +1,26 @@
-{"Clothes": [{"summer": {"upper_body": "", "body": "Футболка", "shorts" : "Шорты"}, "bit_cold" : {"upper_body": "", "body": "Футболка", "shorts": "Штаны/Джинсы"}, "demi_season": {"upper_body": "Ветровка", "body" : "Кофта", "shorts" : "Штаны/Джинсы"}, "winter": {"upper_body" : "Куртка", "body" : "Кофта", "shorts" : "Штаны/Джинсы"}}]}
+{
+  "Clothes": [
+    {
+      "summer": {
+        "upper_body": "", 
+        "body": "Футболка", 
+        "shorts" : "Шорты"
+      },
+      "bit_cold" : {
+        "upper_body": "", 
+        "body": "Футболка", 
+        "shorts": "Штаны/Джинсы"
+      }, 
+      "demi_season": {
+        "upper_body": "Ветровка", 
+        "body" : "Кофта", 
+        "shorts" : "Штаны/Джинсы"
+      }, 
+      "winter": {
+        "upper_body" : "Куртка", 
+        "body" : "Кофта", 
+        "shorts" : "Штаны/Джинсы"
+      }
+    }
+  ]
+}

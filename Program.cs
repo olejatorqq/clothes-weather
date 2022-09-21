@@ -58,21 +58,14 @@ using (var response = await client.SendAsync(request))
     windSpeed = myDeserializedWeatherClass.wind.speed;
 }
 
-
 Console.WriteLine("\nВаш Город: " + city);
 Console.WriteLine("\nПрогноз на сегодня");
 Console.WriteLine("Температура: " + temperature);
 Console.WriteLine("Скорость ветра: " + windSpeed);
 
-
-/*string jsonString =
-    @"{""Clothes"": [{""must_have"": {""body"": ""Футболка""}, ""summer"": {""shorts"" : ""Шорты""}, ""bit_cold"" : {""shorts"": ""Штаны/Джинсы""}, ""demi-season"": {""upper_body"": ""Ветровка"", ""shorts"" : ""Штаны/Джинсы""}, ""winter"": {""upper_body"" : ""Куртка"", ""body"" : ""Кофта"", ""shorts"" : ""Штаны/Джинсы""}}]}";
-ClothesJsonDeserializeClass clothesJsonDeserializeClass = JsonSerializer.Deserialize<ClothesJsonDeserializeClass>(jsonString);*/
-
 dynamic jsonfile = JsonConvert.DeserializeObject("{'Clothes': [{'summer': {'upper_body': '', 'body': 'Футболка', 'shorts' : 'Шорты'}, 'bit_cold' : {'upper_body': '', 'body': 'Футболка', 'shorts': 'Штаны/Джинсы'}, 'demi_season': {'upper_body': 'Ветровка', 'body' : 'Кофта', 'shorts' : 'Штаны/Джинсы'}, 'winter': {'upper_body' : 'Куртка', 'body' : 'Кофта', 'shorts' : 'Штаны/Джинсы'}}]}");
 
-
-/*foreach (var clotherDeserialize in jsonfile.Clothes)
+foreach (var clotherDeserialize in jsonfile.Clothes)
 {
     if (temperature > summer_temperature)//18
     {
@@ -84,30 +77,19 @@ dynamic jsonfile = JsonConvert.DeserializeObject("{'Clothes': [{'summer': {'uppe
     }
     else if (temperature > demi_season_temperatupe)
     {
-        Console.WriteLine($"Вам следует надеть: {clotherDeserialize.bit_cold.upper_body} {clotherDeserialize.bit_cold.body} и {clotherDeserialize.bit_cold.shorts}");
+        Console.WriteLine($"Вам следует надеть: {clotherDeserialize.demi_season.upper_body} {clotherDeserialize.demi_season.body} и {clotherDeserialize.demi_season.shorts}");
     }
-}*/
+    else
+    {
+        Console.WriteLine($"Вам следует надеть: {clotherDeserialize.winter.upper_body} {clotherDeserialize.winter.body} и {clotherDeserialize.winter.shorts}");
+
+    }
+}
 
 if (rain)
 {
-    Console.Write("Сейчас идет дождь, возьмите зонт");
+    Console.WriteLine("Сейчас идет дождь, возьмите зонт");
 }
-
-
-
-
-/*foreach (var qq in stuff.Clothes)
-{
-    Console.Write(qq.must_have.body);
-}*/
-
-
-
-
-
-
-
-
 
 // Get method for finding your Location
 string Get(string uri)
